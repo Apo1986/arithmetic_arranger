@@ -1,0 +1,77 @@
+def exception_handling(first_num, second_num, operator):
+    # Only digit exception
+    try:
+        int(first_num)
+    except:
+        return "Error: Numbers must only contain digits."
+    try:
+        int(second_num)
+    except:
+        return "Error: Numbers must only contain digits."
+    # More than 4 digit no. exception
+    try:
+        if len(first_num) > 4 or len(second_num) > 4:
+            raise BaseException
+    except:
+        return "Error: Numbers cannot be more than four digits."
+    # Operator must be + | - exception.
+    try:
+        if operator != '+' and operator != '-':
+            raise BaseException
+    except:
+        return "Error: Operator must be '+' or '-'."
+    return ""
+
+
+def arithmetic_arranger(problems, displayMode=False):
+
+    start = True
+    side_space = "    "
+    line1 = line2 = line3 = line4 = ""
+    # Too many Problem exception
+    try:
+        if len(problems) > 5:
+            raise BaseException
+    except:
+        return "Error: Too many problems."
+    for prob in problems:
+        # Splitting the Problem into separate strings
+        separated_problem = prob.split()
+        # storing number 1
+        first_num = separated_problem[0]
+        # Storing the operator sign
+        operator = separated_problem[1]
+        # storing number 2
+        second_num = separated_problem[2]
+        exp = exception_handling(first_num, second_num, operator)
+        if exp != "":
+            return exp
+        no1 = int(first_num)
+        no2 = int(second_num)
+        # space contains the max no. os spaces required.
+        space = max(len(first_num), len(second_num))
+        # For first arithmetic arragement
+        if start == True:
+            line1 += first_num.rjust(space + 2)
+            line2 += operator + ' ' + second_num.rjust(space)
+            line3 += '-' * (space + 2)
+            if displayMode == True:
+                if operator == '+':
+                    line4 += str(no1 + no2).rjust(space + 2)
+                else:
+                    line4 += str(no1 - no2).rjust(space + 2)
+            start = False
+        # Other than first arithmetic arragement
+        else:
+            line1 += first_num.rjust(space + 6)
+            line2 += operator.rjust(5) + ' ' + second_num.rjust(space)
+            line3 += side_space + '-' * (space + 2)
+            if displayMode == True:
+                if operator == '+':
+                    line4 += side_space + str(no1 + no2).rjust(space + 2)
+                else:
+                    line4 += side_space + str(no1 - no2).rjust(space + 2)
+    # displayMode is Ture then append line4
+    if displayMode == True:
+        return line1 + '\n' + line2 + '\n' + line3 + '\n' + line4
+    return line1 + '\n' + line2 + '\n' + line3
